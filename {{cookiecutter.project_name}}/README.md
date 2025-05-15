@@ -1,77 +1,56 @@
 # {{cookiecutter.project_name}}
 
-[![Release](https://img.shields.io/github/v/release/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/v/release/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-[![Build status](https://img.shields.io/github/actions/workflow/status/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/main.yml?branch=main)](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/branch/main/graph/badge.svg)](https://codecov.io/gh/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-[![Commit activity](https://img.shields.io/github/commit-activity/m/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/commit-activity/m/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-[![License](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/license/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
-
 {{cookiecutter.project_description}}
 
-- **Github repository**: <https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/>
-- **Documentation** <https://{{cookiecutter.author_github_handle}}.github.io/{{cookiecutter.project_name}}/>
+## Getting started
 
-## Getting started with your project
+### Requirements
 
-### 1. Create a New Repository
+The project uses `uv` as a Python package manager. If not already installed, see [their official documentation](https://docs.astral.sh/uv/getting-started/installation/), or run the command below on MacOS or Linux:
 
-First, create a repository on GitHub with the same name as this project, and then run the following commands:
-
-```bash
-git init -b main
-git add .
-git commit -m "init commit"
-git remote add origin https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
-git push -u origin main
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### 2. Set Up Your Development Environment
+### Installation
 
-Then, install the environment and the pre-commit hooks with
-
-```bash
-make install
-```
-
-This will also generate your `uv.lock` file
-
-### 3. Run the pre-commit hooks
-
-Initially, the CI/CD pipeline might be failing due to formatting issues. To resolve those run:
+Run the commands below to install the package.
 
 ```bash
-uv run pre-commit run -a
+git clone https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
+cd {{cookiecutter.project_name}}
+
+make install # or just `uv sync`
 ```
 
-### 4. Commit the changes
+> Note: the `make install` command will install the dependencies with `uv`, as well as the [`pre-commit hooks`](https://pre-commit.com/).
 
-Lastly, commit the changes made by the two steps above to your repository.
+## Usage
 
-```bash
-git add .
-git commit -m 'Fix formatting issues'
-git push origin main
+### Documentation
+
+You can serve the documentation:
+
+```sh
+make docs
 ```
 
-You are now ready to start development on your project!
-The CI/CD pipeline will be triggered when you open a pull request, merge to main, or when you create a new release.
+### Code quality check
 
-To finalize the set-up for publishing to PyPI, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/publishing/#set-up-for-pypi).
-For activating the automatic documentation with MkDocs, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/mkdocs/#enabling-the-documentation-on-github).
-To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/codecov/).
+You can run the code quality check as below. It will run the pre-commit and mypy.
 
-## Releasing a new version
+> Note that the pre-commit are run before any commit anyway, but not mypy.
 
-{% if cookiecutter.publish_to_pypi == "y" -%}
+```sh
+make check
+```
 
-- Create an API Token on [PyPI](https://pypi.org/).
-- Add the API Token to your projects secrets with the name `PYPI_TOKEN` by visiting [this page](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/settings/secrets/actions/new).
-- Create a [new release](https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}/releases/new) on Github.
-- Create a new tag in the form `*.*.*`.
+### Tests
 
-For more details, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/cicd/#how-to-trigger-a-release).
-{%- endif %}
+You can run the tests via:
 
----
+```sh
+make test
+```
 
-Repository initiated with [fpgmaas/cookiecutter-uv](https://github.com/fpgmaas/cookiecutter-uv).
+Afterward, open the report with `open htmlcov/index.html`
