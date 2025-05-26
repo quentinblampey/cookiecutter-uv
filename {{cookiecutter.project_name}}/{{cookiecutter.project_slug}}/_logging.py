@@ -1,4 +1,5 @@
 import logging
+import typing
 from logging import LogRecord
 
 log = logging.getLogger(__name__)
@@ -15,7 +16,7 @@ class ColorFormatter(logging.Formatter):
     prefix = "[%(levelname)s] (%(name)s)"
     suffix = "%(message)s"
 
-    FORMATS = {
+    FORMATS: typing.ClassVar[dict[int, str]] = {
         logging.DEBUG: f"{grey}{prefix}{reset} {suffix}",
         logging.INFO: f"{blue}{prefix}{reset} {suffix}",
         logging.WARNING: f"{yellow}{prefix}{reset} {suffix}",
@@ -29,7 +30,7 @@ class ColorFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def configure_logger(log: logging.Logger):
+def configure_logger(log: logging.Logger) -> None:
     log.setLevel(logging.INFO)
 
     consoleHandler = logging.StreamHandler()
